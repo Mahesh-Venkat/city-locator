@@ -3,6 +3,8 @@ package com.backbase.citylocator.fragments;
 import android.support.v4.app.Fragment;
 import android.content.Context;
 import android.os.Bundle;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -18,9 +20,7 @@ import com.backbase.citylocator.parser.CitiesParser;
 import com.backbase.citylocator.transferobjects.City;
 
 import java.util.List;
-
-import butterknife.BindView;
-import butterknife.ButterKnife;
+import java.util.Map;
 
 public class CitiesFragment extends Fragment implements HelperFragment {
     private static final String TAG_CITIES_FRAGMENT = "CitiesFragment";
@@ -71,9 +71,25 @@ public class CitiesFragment extends Fragment implements HelperFragment {
     private CitiesAdapter.OnItemClickListener mainMenuItemClickListener = new CitiesAdapter.OnItemClickListener() {
         @Override
         public void onItemClicked(City city) {
-
+            addCorrespondingCityMapFragment(city);
         }
     };
+
+    private void addCorrespondingCityMapFragment(City city) {
+        MapFragment mapFragment = new MapFragment();
+
+        Bundle mapDetailsBundle = new Bundle();
+        mapDetailsBundle.putSerializable(MapFragment.SELECTED_CITY, city);
+        mapFragment.setArguments(mapDetailsBundle);
+
+        FragmentManager fragmentManager = getFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_right, R.anim.enter_from_left, R.anim.exit_to_left);
+        fragmentTransaction.replace(R.id.framelayout_city_locator_container, mapFragment, MapFragment.TAG);
+        fragmentTransaction.addToBackStack(null);
+        fragmentTransaction.commit();
+    }
+
 
     @Override
     public void onAttach(Context context) {

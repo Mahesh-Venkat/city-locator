@@ -1,6 +1,8 @@
 package com.backbase.citylocator.transferobjects;
 
-public class City {
+import java.io.Serializable;
+
+public class City implements Serializable{
     private int _id;
     private String name;
     private String country;
@@ -38,7 +40,7 @@ public class City {
         this.coord = coord;
     }
 
-    private class GPSCoordinates {
+    public class GPSCoordinates {
         private double lat;
         private double lon;
 
