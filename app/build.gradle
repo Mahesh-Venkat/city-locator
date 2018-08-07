@@ -26,6 +26,8 @@ dependencies {
     implementation androidDependencies.appCompatv7
     implementation androidDependencies.constraintLayout
     implementation androidDependencies.gsonVersion
+    implementation androidDependencies.recyclerview
+    implementation androidDependencies.butterKnife
 
     testImplementation testDependencies.jUnit
 

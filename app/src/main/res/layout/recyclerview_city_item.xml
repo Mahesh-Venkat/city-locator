@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/constraintLayout_recyclerview_city_item_parent_layout"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/colorWhite"
+    android:layout_margin="@dimen/view_margin_ten">
+
+    <TextView
+        android:id="@+id/textview_recyclerview_city_name"
+        style="@style/textView_body_style"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/view_margin_five"
+        android:layout_marginBottom="@dimen/view_margin_five"
+        android:layout_marginLeft="@dimen/view_margin_ten"
+        android:layout_marginStart="@dimen/view_margin_ten"
+        android:textSize="@dimen/text_size_fourteen_sp" />
+
+</android.support.constraint.ConstraintLayout>
