@@ -1,8 +1,8 @@
 package com.backbase.citylocator.fragments;
 
-import android.support.v4.app.Fragment;
 import android.location.Location;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -28,6 +28,10 @@ public class MapFragment extends Fragment implements GoogleApiClient.ConnectionC
 
     public static final String TAG = MapFragment.class.getSimpleName();
     public static final String SELECTED_CITY="Selected City";
+
+    private static final int CAMERA_ZOOM = 5;
+    private static final int CAMERA_BEARING = 0;
+    private static final int CAMERA_TILT= 30;
 
     private GoogleApiClient mGoogleApiClient;
     private LocationRequest mLocationRequest;
@@ -150,15 +154,20 @@ public class MapFragment extends Fragment implements GoogleApiClient.ConnectionC
 
                 @Override
                 public void onMapReady(GoogleMap googleMap) {
+
+
                     City.GPSCoordinates gpsCoordinates = selectedCity.getCoord();
 
                     mGoogleMap = googleMap;
 
+//                    mGoogleMap.setMapStyle(
+//                            MapStyleOptions.loadRawResourceStyle(getActivity(), com.backbase.citylocator.R.raw.map_style));
+
                     mGoogleMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
                     mGoogleMap.addMarker(new MarkerOptions().position(new LatLng(gpsCoordinates.getLat(), gpsCoordinates.getLon())).title(selectedCity.getName()));
 
-                    CameraPosition cityPosition = CameraPosition.builder().target(new LatLng(gpsCoordinates.getLat(), gpsCoordinates.getLon())).zoom(5).bearing(0).tilt(45).build();
-                    mGoogleMap.moveCamera(CameraUpdateFactory.newCameraPosition(cityPosition));
+                    CameraPosition cityCameraPosition = CameraPosition.builder().target(new LatLng(gpsCoordinates.getLat(), gpsCoordinates.getLon())).zoom(CAMERA_ZOOM).bearing(CAMERA_BEARING).tilt(CAMERA_TILT).build();
+                    mGoogleMap.moveCamera(CameraUpdateFactory.newCameraPosition(cityCameraPosition));
                 }
             });
     }

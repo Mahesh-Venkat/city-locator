@@ -1,29 +1,31 @@
 package com.backbase.citylocator.adapters;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.TextView;
-
 
 import com.backbase.citylocator.R;
 import com.backbase.citylocator.transferobjects.City;
 
+import java.util.ArrayList;
 import java.util.List;
 
-public class CitiesAdapter extends RecyclerView.Adapter<CitiesAdapter.ViewHolder> {
+public class CitiesAdapter extends RecyclerView.Adapter<CitiesAdapter.ViewHolder> implements Filterable {
     private Context context;
     private List<City> cityList;
+    private List<City> cityListFiltered;
     private CitiesAdapter.OnItemClickListener onCityItemClickListener;
 
     public CitiesAdapter(Context mContext, List<City> mcityList) {
-        context = mContext;
+        this.context = mContext;
         this.cityList = mcityList;
+        this.cityListFiltered = mcityList;
     }
 
     @Override
@@ -38,7 +40,7 @@ public class CitiesAdapter extends RecyclerView.Adapter<CitiesAdapter.ViewHolder
     public void onBindViewHolder(final ViewHolder holder, int position) {
         int actualPosition = holder.getAdapterPosition();
 
-        final City city = cityList.get(actualPosition);
+        final City city = cityListFiltered.get(actualPosition);
 
         String cityName = context.getResources().getString(R.string.label_city_name, city.getName(), city.getCountry());
         holder.textForTile.setText(cityName);
@@ -53,7 +55,7 @@ public class CitiesAdapter extends RecyclerView.Adapter<CitiesAdapter.ViewHolder
 
     @Override
     public int getItemCount() {
-        return cityList.size();
+        return cityListFiltered.size();
     }
 
     public interface OnItemClickListener {
@@ -63,6 +65,41 @@ public class CitiesAdapter extends RecyclerView.Adapter<CitiesAdapter.ViewHolder
     public void setOnMainMenuItemClickListener(OnItemClickListener onItemClickListener) {
         this.onCityItemClickListener = onItemClickListener;
     }
+
+    @Override
+    public Filter getFilter() {
+        return new Filter() {
+
+            @Override
+            protected FilterResults performFiltering(CharSequence searchContent) {
+                String searchText = searchContent.toString();
+
+                if (searchText.isEmpty()) {
+                    cityListFiltered = cityList;
+                } else {
+                    List<City> filteredList = new ArrayList<>();
+                    for (City city : cityList) {
+                        if (city.getName().toLowerCase().contains(searchText.toLowerCase())) {
+                            filteredList.add(city);
+                        }
+                    }
+
+                    cityListFiltered = filteredList;
+                }
+
+                FilterResults filterResults = new FilterResults();
+                filterResults.values = cityListFiltered;
+                return filterResults;
+            }
+
+            @Override
+            protected void publishResults(CharSequence charSequence, FilterResults filterResults) {
+                cityListFiltered = (ArrayList<City>) filterResults.values;
+                notifyDataSetChanged();
+            }
+        };
+    }
+
 
     class ViewHolder extends RecyclerView.ViewHolder {
         ConstraintLayout parentLayout;

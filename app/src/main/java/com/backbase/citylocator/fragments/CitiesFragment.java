@@ -1,14 +1,19 @@
 package com.backbase.citylocator.fragments;
 
-import android.support.v4.app.Fragment;
 import android.content.Context;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SearchView;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AnimationUtils;
@@ -19,13 +24,15 @@ import com.backbase.citylocator.adapters.CitiesAdapter;
 import com.backbase.citylocator.parser.CitiesParser;
 import com.backbase.citylocator.transferobjects.City;
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
+import java.util.function.Predicate;
 
-public class CitiesFragment extends Fragment implements HelperFragment {
+public class CitiesFragment extends Fragment implements HelperFragment, SearchView.OnQueryTextListener {
     private static final String TAG_CITIES_FRAGMENT = "CitiesFragment";
 
     private RecyclerView recyclerViewCities;
+    private CitiesAdapter citiesAdapter;
 
     public CitiesFragment() {
     }
@@ -41,6 +48,7 @@ public class CitiesFragment extends Fragment implements HelperFragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
     }
 
     @Override
@@ -56,10 +64,10 @@ public class CitiesFragment extends Fragment implements HelperFragment {
     }
 
     private void setRecyclerViewCities() {
-        List<City> cities = new CitiesParser(getActivity()).getCityList();
+        List<City> cityList = new CitiesParser(getActivity()).getCityList();
         LayoutAnimationController animationController = AnimationUtils.loadLayoutAnimation(getActivity(), R.anim.layout_animation_fall_down);
 
-        CitiesAdapter citiesAdapter = new CitiesAdapter(getActivity(), cities);
+        citiesAdapter = new CitiesAdapter(getActivity(), cityList);
         citiesAdapter.setOnMainMenuItemClickListener(mainMenuItemClickListener);
         recyclerViewCities.setLayoutAnimation(animationController);
         recyclerViewCities.setLayoutManager(new LinearLayoutManager(getActivity()));
@@ -105,5 +113,29 @@ public class CitiesFragment extends Fragment implements HelperFragment {
     @Override
     public String getFragmentTag() {
         return TAG_CITIES_FRAGMENT;
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.main_menu, menu);
+
+        final MenuItem item = menu.findItem(R.id.action_search);
+        final SearchView searchView = (SearchView) MenuItemCompat.getActionView(item);
+        searchView.setMaxWidth(Integer.MAX_VALUE);
+        searchView.setOnQueryTextListener(this);
+    }
+
+    @Override
+    public boolean onQueryTextSubmit(String query) {
+        citiesAdapter.getFilter().filter(query);
+
+        return false;
+    }
+
+    @Override
+    public boolean onQueryTextChange(final String newText) {
+        citiesAdapter.getFilter().filter(newText);
+
+        return false;
     }
 }
