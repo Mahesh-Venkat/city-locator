@@ -22,6 +22,7 @@ import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MapStyleOptions;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 public class MapFragment extends Fragment implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, LocationListener {
@@ -160,8 +161,8 @@ public class MapFragment extends Fragment implements GoogleApiClient.ConnectionC
 
                     mGoogleMap = googleMap;
 
-//                    mGoogleMap.setMapStyle(
-//                            MapStyleOptions.loadRawResourceStyle(getActivity(), com.backbase.citylocator.R.raw.map_style));
+                    mGoogleMap.setMapStyle(
+                            MapStyleOptions.loadRawResourceStyle(getActivity(), com.backbase.citylocator.R.raw.map_style));
 
                     mGoogleMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
                     mGoogleMap.addMarker(new MarkerOptions().position(new LatLng(gpsCoordinates.getLat(), gpsCoordinates.getLon())).title(selectedCity.getName()));

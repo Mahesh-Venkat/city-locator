@@ -1,6 +1,7 @@
 <resources xmlns:android="http://schemas.android.com/apk/res/android">
 
     <style name="AppTheme" parent="@style/Base.Theme.AppCompat.Light.DarkActionBar">
+        <item name="actionBarTheme">@style/ActionBarTheme</item>
         <item name="android:fontFamily">@font/opensans</item>
         <item name="android:textColor">@android:color/black</item>
         <item name="colorPrimary">@color/colorPrimary</item>
@@ -22,6 +23,19 @@
         <item name="android:lineSpacingExtra">1dp</item>
         <item name="android:fontFamily">@font/opensans</item>
         <item name="android:textAppearance">@style/TextAppearance.AppCompat.Body1</item>
+    </style>
+
+    <style name="ActionBarTheme" parent="@android:style/Theme.Holo.Light">
+        <item name="android:actionBarStyle">@style/MyTheme.ActionBarStyle</item>
+    </style>
+
+    <style name="MyTheme.ActionBarStyle" parent="@android:style/Widget.Holo.Light.ActionBar">
+        <item name="android:titleTextStyle">@style/MyTheme.ActionBar.TitleTextStyle</item>
+        <item name="android:fontFamily">@font/opensans</item>
+    </style>
+
+    <style name="MyTheme.ActionBar.TitleTextStyle" parent="@android:style/TextAppearance.Holo.Widget.ActionBar.Title">
+        <item name="android:textColor">@color/colorBlack</item>
     </style>
 
 </resources>
