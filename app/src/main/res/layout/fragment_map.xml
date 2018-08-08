@@ -3,14 +3,17 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/mapBackGroundColor"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".fragments.MapFragment">
 
     <TextView
+        style="@style/textView_subhead_style"
         android:id="@+id/textView_map_city_country_name"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_margin="@dimen/view_twenty_dp"
+        android:textColor="@color/colorWhite"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintHeight_default="percent"
         app:layout_constraintHeight_percent="0.05"/>

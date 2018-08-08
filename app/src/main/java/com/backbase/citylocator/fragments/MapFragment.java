@@ -1,6 +1,5 @@
 package com.backbase.citylocator.fragments;
 
-import android.location.Location;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -13,8 +12,6 @@ import com.backbase.citylocator.R;
 import com.backbase.citylocator.transferobjects.City;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.location.LocationListener;
-import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -25,20 +22,19 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MapStyleOptions;
 import com.google.android.gms.maps.model.MarkerOptions;
 
-public class MapFragment extends Fragment implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, LocationListener {
+public class MapFragment extends Fragment implements HelperFragment, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
 
-    public static final String TAG = MapFragment.class.getSimpleName();
-    public static final String SELECTED_CITY="Selected City";
+    public static final String SELECTED_CITY = "Selected City";
+
+    private static final String TAG_MAP_FRAGMENT = MapFragment.class.getSimpleName();
 
     private static final int CAMERA_ZOOM = 5;
     private static final int CAMERA_BEARING = 0;
-    private static final int CAMERA_TILT= 30;
+    private static final int CAMERA_TILT = 30;
 
     private GoogleApiClient mGoogleApiClient;
-    private LocationRequest mLocationRequest;
     private GoogleMap mGoogleMap;
     private MapView mMapView;
-    private TextView textViewMapInfo;
     private City selectedCity;
 
     public MapFragment() {
@@ -68,11 +64,6 @@ public class MapFragment extends Fragment implements GoogleApiClient.ConnectionC
                 .addOnConnectionFailedListener(this)
                 .addApi(LocationServices.API)
                 .build();
-
-        mLocationRequest = LocationRequest.create()
-                .setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY)
-                .setInterval(10 * 1000)
-                .setFastestInterval(1 * 1000);
     }
 
     @Override
@@ -85,8 +76,9 @@ public class MapFragment extends Fragment implements GoogleApiClient.ConnectionC
             mMapView.onResume();
         }
 
-        textViewMapInfo = rootView.findViewById(R.id.textView_map_city_country_name);
+        TextView textViewMapInfo = rootView.findViewById(R.id.textView_map_city_country_name);
         textViewMapInfo.setText(getResources().getString(R.string.label_city_name, selectedCity.getName(), selectedCity.getCountry()));
+
         return rootView;
     }
 
@@ -97,7 +89,7 @@ public class MapFragment extends Fragment implements GoogleApiClient.ConnectionC
         mMapView.onResume();
         setUpMap();
 
-        Log.d(TAG, "onResume");
+        Log.d(TAG_MAP_FRAGMENT, "onResume");
     }
 
     @Override
@@ -107,7 +99,7 @@ public class MapFragment extends Fragment implements GoogleApiClient.ConnectionC
             mGoogleApiClient.disconnect();
         mMapView.onPause();
 
-        Log.d(TAG, "onPause");
+        Log.d(TAG_MAP_FRAGMENT, "onPause");
     }
 
     @Override
@@ -115,7 +107,7 @@ public class MapFragment extends Fragment implements GoogleApiClient.ConnectionC
         super.onDestroy();
         mMapView.onDestroy();
 
-        Log.d(TAG, "onDestroy");
+        Log.d(TAG_MAP_FRAGMENT, "onDestroy");
     }
 
     @Override
@@ -123,30 +115,23 @@ public class MapFragment extends Fragment implements GoogleApiClient.ConnectionC
         super.onLowMemory();
         mMapView.onLowMemory();
 
-        Log.d(TAG, "onLowMemory");
+        Log.d(TAG_MAP_FRAGMENT, "onLowMemory");
     }
 
     @Override
     public void onConnected(Bundle bundle) {
 
-        Log.d(TAG, "onConnected");
+        Log.d(TAG_MAP_FRAGMENT, "onConnected");
     }
 
     @Override
     public void onConnectionSuspended(int i) {
-        Log.d(TAG, "onConnectionSuspended");
+        Log.d(TAG_MAP_FRAGMENT, "onConnectionSuspended");
     }
 
     @Override
     public void onConnectionFailed(ConnectionResult connectionResult) {
-        Log.d(TAG, "onConnectionFailed");
-    }
-
-    @Override
-    public void onLocationChanged(Location location) {
-        handleNewLocation(location);
-
-        Log.d(TAG, "onLocationChanged");
+        Log.d(TAG_MAP_FRAGMENT, "onConnectionFailed");
     }
 
     private void setUpMap() {
@@ -165,21 +150,21 @@ public class MapFragment extends Fragment implements GoogleApiClient.ConnectionC
                             MapStyleOptions.loadRawResourceStyle(getActivity(), com.backbase.citylocator.R.raw.map_style));
 
                     mGoogleMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
-                    mGoogleMap.addMarker(new MarkerOptions().position(new LatLng(gpsCoordinates.getLat(), gpsCoordinates.getLon())).title(selectedCity.getName()));
+
+                    MarkerOptions markerOptions = new MarkerOptions();
+                    markerOptions.position(new LatLng(gpsCoordinates.getLat(), gpsCoordinates.getLon()));
+                    markerOptions.title(selectedCity.getName());
+                    mGoogleMap.addMarker(markerOptions);
 
                     CameraPosition cityCameraPosition = CameraPosition.builder().target(new LatLng(gpsCoordinates.getLat(), gpsCoordinates.getLon())).zoom(CAMERA_ZOOM).bearing(CAMERA_BEARING).tilt(CAMERA_TILT).build();
+
                     mGoogleMap.moveCamera(CameraUpdateFactory.newCameraPosition(cityCameraPosition));
                 }
             });
     }
 
-    private void handleNewLocation(Location location) {
-        LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
-
-        MarkerOptions options = new MarkerOptions()
-                .position(latLng)
-                .title("I am here!");
-        mGoogleMap.addMarker(options);
-        mGoogleMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
+    @Override
+    public String getFragmentTag() {
+        return TAG_MAP_FRAGMENT;
     }
 }

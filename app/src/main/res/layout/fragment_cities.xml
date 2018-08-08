@@ -10,7 +10,7 @@
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recyclerView_cities"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:paddingTop="@dimen/view_margin_ten"
         android:background="@color/colorWhite"
         android:layout_margin="@dimen/view_margin_ten"
@@ -20,4 +20,19 @@
         app:fastScrollVerticalThumbDrawable="@drawable/fast_scroll_thumb"
         app:fastScrollVerticalTrackDrawable="@drawable/fast_scroll_track"
         tools:listitem="@layout/recyclerview_city_item" />
+
+    <TextView
+        android:id="@+id/textView_cities_no_search_results"
+        style="@style/textView_body_style"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_margin="@dimen/view_thirty_dp"
+        android:text="@string/label_no_search_results_found"
+        android:visibility="gone"
+        />
 </android.support.constraint.ConstraintLayout>

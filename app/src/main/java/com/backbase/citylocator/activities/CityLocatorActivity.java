@@ -14,6 +14,7 @@ import android.view.MenuItem;
 import com.backbase.citylocator.R;
 import com.backbase.citylocator.fragments.CitiesFragment;
 import com.backbase.citylocator.fragments.HelperFragment;
+import com.backbase.citylocator.fragments.WelcomeFragment;
 
 public class CityLocatorActivity extends AppCompatActivity {
 
@@ -22,22 +23,22 @@ public class CityLocatorActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_city_locator);
 
-        addCityFragment(savedInstanceState);
+        addWelcomeFragment(savedInstanceState);
     }
 
-    public void addCityFragment(Bundle savedInstanceState) {
+    public void addWelcomeFragment(Bundle savedInstanceState) {
         Fragment cityLocatorContainerFragment = getSupportFragmentManager().
                 findFragmentById(R.id.framelayout_city_locator_container);
 
         if (savedInstanceState != null && cityLocatorContainerFragment != null) {
             loadRespectiveActiveFragment();
         } else {
-            CitiesFragment citiesFragment = new CitiesFragment();
+            WelcomeFragment welcomeFragment = new WelcomeFragment();
 
             getSupportFragmentManager().beginTransaction()
                     .setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_right,
                             R.anim.enter_from_left, R.anim.exit_to_left)
-                    .replace(R.id.framelayout_city_locator_container, citiesFragment, citiesFragment.getFragmentTag())
+                    .replace(R.id.framelayout_city_locator_container, welcomeFragment, welcomeFragment.getFragmentTag())
                     .commit();
         }
 

@@ -44,6 +44,7 @@ public class CitiesAdapter extends RecyclerView.Adapter<CitiesAdapter.ViewHolder
 
         String cityName = context.getResources().getString(R.string.label_city_name, city.getName(), city.getCountry());
         holder.textForTile.setText(cityName);
+        holder.parentLayout.setContentDescription(cityName); // Making App functional for ADA
 
         holder.parentLayout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -109,7 +110,7 @@ public class CitiesAdapter extends RecyclerView.Adapter<CitiesAdapter.ViewHolder
             super(view);
 
             parentLayout = view.findViewById(R.id.constraintLayout_recyclerview_city_item_parent_layout);
-            textForTile = (TextView) view.findViewById(R.id.textview_recyclerview_city_name);
+            textForTile = view.findViewById(R.id.textview_recyclerview_city_name);
         }
     }
 }

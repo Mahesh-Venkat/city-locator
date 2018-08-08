@@ -22,14 +22,13 @@ import android.view.animation.LayoutAnimationController;
 import com.backbase.citylocator.R;
 import com.backbase.citylocator.adapters.CitiesAdapter;
 import com.backbase.citylocator.parser.CitiesParser;
+import com.backbase.citylocator.transferobjects.Cities;
 import com.backbase.citylocator.transferobjects.City;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.function.Predicate;
 
 public class CitiesFragment extends Fragment implements HelperFragment, SearchView.OnQueryTextListener {
-    private static final String TAG_CITIES_FRAGMENT = "CitiesFragment";
+    public static final String TAG_CITIES_FRAGMENT = "CitiesFragment";
 
     private RecyclerView recyclerViewCities;
     private CitiesAdapter citiesAdapter;
@@ -64,7 +63,18 @@ public class CitiesFragment extends Fragment implements HelperFragment, SearchVi
     }
 
     private void setRecyclerViewCities() {
-        List<City> cityList = new CitiesParser(getActivity()).getCityList();
+        List<City> cityList;
+
+        Cities cities = Cities.getInstance();
+
+        if(cities.getCities() != null) {
+            cityList = cities.getCities();
+        } else {
+            cities.setCities(new CitiesParser(getActivity()).getCityList());
+            cityList = cities.getCities();
+        }
+        cities.setCities(cityList);
+
         LayoutAnimationController animationController = AnimationUtils.loadLayoutAnimation(getActivity(), R.anim.layout_animation_fall_down);
 
         citiesAdapter = new CitiesAdapter(getActivity(), cityList);
@@ -93,7 +103,7 @@ public class CitiesFragment extends Fragment implements HelperFragment, SearchVi
         FragmentManager fragmentManager = getFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_right, R.anim.enter_from_left, R.anim.exit_to_left);
-        fragmentTransaction.replace(R.id.framelayout_city_locator_container, mapFragment, MapFragment.TAG);
+        fragmentTransaction.replace(R.id.framelayout_city_locator_container, mapFragment, mapFragment.getFragmentTag());
         fragmentTransaction.addToBackStack(null);
         fragmentTransaction.commit();
     }
