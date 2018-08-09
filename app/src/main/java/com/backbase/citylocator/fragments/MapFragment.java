@@ -17,9 +17,11 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MapStyleOptions;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 public class MapFragment extends Fragment implements HelperFragment, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
@@ -140,8 +142,6 @@ public class MapFragment extends Fragment implements HelperFragment, GoogleApiCl
 
                 @Override
                 public void onMapReady(GoogleMap googleMap) {
-
-
                     City.GPSCoordinates gpsCoordinates = selectedCity.getCoord();
 
                     mGoogleMap = googleMap;
@@ -151,16 +151,32 @@ public class MapFragment extends Fragment implements HelperFragment, GoogleApiCl
 
                     mGoogleMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
 
-                    MarkerOptions markerOptions = new MarkerOptions();
-                    markerOptions.position(new LatLng(gpsCoordinates.getLat(), gpsCoordinates.getLon()));
-                    markerOptions.title(selectedCity.getName());
-                    mGoogleMap.addMarker(markerOptions);
+                    mGoogleMap.addMarker(getMarkerOptions(gpsCoordinates)).showInfoWindow();
 
-                    CameraPosition cityCameraPosition = CameraPosition.builder().target(new LatLng(gpsCoordinates.getLat(), gpsCoordinates.getLon())).zoom(CAMERA_ZOOM).bearing(CAMERA_BEARING).tilt(CAMERA_TILT).build();
-
-                    mGoogleMap.moveCamera(CameraUpdateFactory.newCameraPosition(cityCameraPosition));
+                    setCameraPosition(mGoogleMap, gpsCoordinates);
                 }
             });
+    }
+
+    private MarkerOptions getMarkerOptions(City.GPSCoordinates gpsCoordinates) {
+        int colorHue = 28; //Calculated for primary color
+
+        MarkerOptions markerOptions = new MarkerOptions();
+        markerOptions.position(new LatLng(gpsCoordinates.getLat(), gpsCoordinates.getLon()));
+        markerOptions.title(selectedCity.getName());
+        markerOptions.icon(BitmapDescriptorFactory.defaultMarker(colorHue));
+
+        return markerOptions;
+    }
+
+    private void setCameraPosition(GoogleMap googleMap, City.GPSCoordinates gpsCoordinates) {
+        CameraPosition cityCameraPosition = CameraPosition.builder().
+                target(new LatLng(gpsCoordinates.getLat(), gpsCoordinates.getLon())).
+                zoom(CAMERA_ZOOM).
+                bearing(CAMERA_BEARING).
+                tilt(CAMERA_TILT).build();
+
+        googleMap.moveCamera(CameraUpdateFactory.newCameraPosition(cityCameraPosition));
     }
 
     @Override
