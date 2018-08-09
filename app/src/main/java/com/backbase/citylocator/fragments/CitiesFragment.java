@@ -1,9 +1,7 @@
 package com.backbase.citylocator.fragments;
 
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -23,9 +21,6 @@ import android.view.animation.LayoutAnimationController;
 
 import com.backbase.citylocator.R;
 import com.backbase.citylocator.adapters.CitiesAdapter;
-import com.backbase.citylocator.asynctasks.ParsingAsyncTask;
-import com.backbase.citylocator.interfaces.TaskListener;
-import com.backbase.citylocator.parser.CitiesParser;
 import com.backbase.citylocator.transferobjects.Cities;
 import com.backbase.citylocator.transferobjects.City;
 

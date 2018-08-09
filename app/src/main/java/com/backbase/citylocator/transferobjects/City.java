@@ -1,7 +1,6 @@
 package com.backbase.citylocator.transferobjects;
 
 import java.io.Serializable;
-import java.util.Objects;
 
 public class City implements Serializable{
     private long _id;

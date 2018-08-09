@@ -1,7 +1,6 @@
 package com.backbase.citylocator.asynctasks;
 
 import android.app.Activity;
-import android.content.Context;
 import android.os.AsyncTask;
 
 import com.backbase.citylocator.interfaces.TaskListener;
