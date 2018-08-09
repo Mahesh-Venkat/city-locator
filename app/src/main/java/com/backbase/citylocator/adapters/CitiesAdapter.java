@@ -78,14 +78,7 @@ public class CitiesAdapter extends RecyclerView.Adapter<CitiesAdapter.ViewHolder
                 if (searchText.isEmpty()) {
                     cityListFiltered = cityList;
                 } else {
-                    List<City> filteredList = new ArrayList<>();
-                    for (City city : cityList) {
-                        if (city.getName().toLowerCase().contains(searchText.toLowerCase())) {
-                            filteredList.add(city);
-                        }
-                    }
-
-                    cityListFiltered = filteredList;
+                    cityListFiltered = filterCities(searchText);
                 }
 
                 FilterResults filterResults = new FilterResults();
@@ -101,6 +94,17 @@ public class CitiesAdapter extends RecyclerView.Adapter<CitiesAdapter.ViewHolder
         };
     }
 
+    public List<City> filterCities(String searchText) {
+        List<City> filteredList = new ArrayList<>();
+
+        for (City city : cityList) {
+            if (city.getName().toLowerCase().startsWith(searchText.toLowerCase())) {
+                filteredList.add(city);
+            }
+        }
+
+        return filteredList;
+    }
 
     class ViewHolder extends RecyclerView.ViewHolder {
         ConstraintLayout parentLayout;

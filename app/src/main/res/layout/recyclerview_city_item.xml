@@ -4,6 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="@dimen/view_margin_ten"
+    android:padding="@dimen/view_margin_ten"
     android:background="@color/colorWhite">
 
     <TextView
@@ -12,7 +13,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/view_twenty_dp"
-        android:textColor="@color/colorBlack"
-        android:textSize="@dimen/text_size_sixteen_sp" />
+        android:textColor="@color/colorPrimaryDark"
+        android:textSize="@dimen/text_size_eighteen_sp" />
 
 </android.support.constraint.ConstraintLayout>

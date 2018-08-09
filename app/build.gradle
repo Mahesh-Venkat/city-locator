@@ -25,6 +25,7 @@ android {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
+    implementation androidDependencies.design
     implementation androidDependencies.appCompatv7
     implementation androidDependencies.constraintLayout
     implementation androidDependencies.gsonVersion

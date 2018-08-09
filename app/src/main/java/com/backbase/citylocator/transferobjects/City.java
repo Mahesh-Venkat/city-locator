@@ -1,18 +1,19 @@
 package com.backbase.citylocator.transferobjects;
 
 import java.io.Serializable;
+import java.util.Objects;
 
 public class City implements Serializable{
-    private int _id;
+    private long _id;
     private String name;
     private String country;
-    private GPSCoordinates coord;
+    private GPSCoordinates coord = new GPSCoordinates();
 
-    public int get_id() {
+    public long get_id() {
         return _id;
     }
 
-    public void set_id(int _id) {
+    public void set_id(long _id) {
         this._id = _id;
     }
 
@@ -38,6 +39,23 @@ public class City implements Serializable{
 
     public void setCoord(GPSCoordinates coord) {
         this.coord = coord;
+    }
+
+    public void setCoordinates(double latitude, double longitude) {
+        this.coord.setLon(longitude);
+        this.coord.setLat(latitude);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        City city = (City) o;
+        return _id == city._id &&
+                name.equals(city.name) &&
+                country.equals(city.country) &&
+                this.coord.getLat() == city.coord.getLat() &&
+                this.coord.getLon() == city.coord.getLon() ;
     }
 
     public class GPSCoordinates {
