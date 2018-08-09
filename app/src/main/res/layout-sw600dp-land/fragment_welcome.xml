@@ -63,7 +63,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/view_thirty_dp"
-            android:layout_marginBottom="@dimen/view_sixty_dp"
+            android:layout_marginBottom="@dimen/view_forty_dp"
             android:background="@drawable/standard_button_background"
             android:contentDescription="@string/welcome_button_continue_content_description"
             android:drawableEnd="@drawable/ic_arrow_continue"
