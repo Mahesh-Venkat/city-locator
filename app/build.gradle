@@ -2,7 +2,7 @@ apply plugin: 'com.android.application'
 apply from: 'dependencies.gradle'
 
 android {
-    compileSdkVersion 27
+    compileSdkVersion versions.compileSdkVersion
     defaultConfig {
         applicationId "com.backbase.citylocator"
         minSdkVersion versions.minSdk
@@ -15,9 +15,23 @@ android {
     }
 
     buildTypes {
-        release {
+        debug {
             minifyEnabled false
+            debuggable true
+        }
+        release {
+            minifyEnabled true
+            debuggable false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    android.applicationVariants.all { variant ->
+
+        variant.outputs.all { output ->
+            def newApkName = "CityLocator_" + variant.versionName + ".apk";
+            outputFileName = new File(
+                    "./../../../../../build/outputs/apk", newApkName);
         }
     }
 }
