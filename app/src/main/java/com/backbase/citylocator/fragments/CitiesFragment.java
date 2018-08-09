@@ -115,6 +115,7 @@ public class CitiesFragment extends Fragment implements HelperFragment, SearchVi
 
         final MenuItem item = menu.findItem(R.id.action_search);
         final SearchView searchView = (SearchView) MenuItemCompat.getActionView(item);
+        searchView.setQueryHint(getResources().getString(R.string.search_hint_text));
         searchView.setMaxWidth(Integer.MAX_VALUE);
         searchView.setOnQueryTextListener(this);
     }
