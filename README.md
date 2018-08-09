@@ -1,5 +1,5 @@
 # city-locator
-Backbase Assignment - City Locator
+<b> Backbase Assignment - City Locator </b>
 
 CityLocator - It helps you to search your favorite city form our content and pin it on a map. This app has been built on Google Material design guide lines and
 ADA supported.
