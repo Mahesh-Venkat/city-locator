@@ -6,6 +6,7 @@
     <dimen name="view_sixty_dp">60dp</dimen>
     <dimen name="view_eighty_dp">80dp</dimen>
     <dimen name="view_hundred_dp">100dp</dimen>
+    <dimen name="view_one_hundred_and_fifty_dp">150dp</dimen>
     <dimen name="view_forty_dp">40dp</dimen>
     <dimen name="view_thirty_five_dp">35dp</dimen>
     <dimen name="view_thirty_dp">30dp</dimen>
@@ -20,4 +21,6 @@
     <dimen name="text_size_eighteen_sp">18sp</dimen>
     <dimen name="text_size_twenty_sp">20sp</dimen>
     <dimen name="text_size_twentytwo_sp">22sp</dimen>
+    <dimen name="text_size_twentyfour_sp">24sp</dimen>
+    <dimen name="text_size_twentysix_sp">26sp</dimen>
 </resources>
