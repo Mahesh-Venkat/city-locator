@@ -1,7 +1,9 @@
 package com.backbase.citylocator.fragments;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -21,6 +23,8 @@ import android.view.animation.LayoutAnimationController;
 
 import com.backbase.citylocator.R;
 import com.backbase.citylocator.adapters.CitiesAdapter;
+import com.backbase.citylocator.asynctasks.ParsingAsyncTask;
+import com.backbase.citylocator.interfaces.TaskListener;
 import com.backbase.citylocator.parser.CitiesParser;
 import com.backbase.citylocator.transferobjects.Cities;
 import com.backbase.citylocator.transferobjects.City;
@@ -48,6 +52,7 @@ public class CitiesFragment extends Fragment implements HelperFragment, SearchVi
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
+        setRetainInstance(true);
     }
 
     @Override
@@ -63,17 +68,7 @@ public class CitiesFragment extends Fragment implements HelperFragment, SearchVi
     }
 
     private void setRecyclerViewCities() {
-        List<City> cityList;
-
-        Cities cities = Cities.getInstance();
-
-        if(cities.getCities() != null) {
-            cityList = cities.getCities();
-        } else {
-            cities.setCities(new CitiesParser(getActivity()).getCityList());
-            cityList = cities.getCities();
-        }
-        cities.setCities(cityList);
+        List<City> cityList = Cities.getInstance().getCities();
 
         LayoutAnimationController animationController = AnimationUtils.loadLayoutAnimation(getActivity(), R.anim.layout_animation_fall_down);
 
@@ -112,12 +107,6 @@ public class CitiesFragment extends Fragment implements HelperFragment, SearchVi
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-
-    }
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
     }
 
     @Override
